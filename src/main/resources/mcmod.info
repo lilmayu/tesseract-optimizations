@@ -1,0 +1,16 @@
+[
+	{
+		"modid": "tesseract_optimizations",
+		"name": "Tesseract Optimizations",
+		"description": "Optimizing Tesseracts for better performance",
+		"version": "${version}",
+		"mcversion": "1.12.2",
+		"url": "https://www.curseforge.com/minecraft/mc-mods/tesseract-optimizations",
+		"updateUrl": "",
+		"authorList": ["Mayuna"],
+		"credits": "",
+		"logoFile": "logo.png",
+		"screenshots": [],
+		"dependencies": []
+	}
+]

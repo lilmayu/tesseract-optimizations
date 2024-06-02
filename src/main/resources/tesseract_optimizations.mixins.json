@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "package": "dev.mayuna.tesseract_optimizations.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "minVersion": "0.8",
+  "refmap": "mixins.tesseract_optimizations.refmap.json",
+  "mixins": [
+  ],
+  "client": [
+    "TesseractBlockEntityRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

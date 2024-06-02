@@ -1,0 +1,87 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven { url = "https://maven.minecraftforge.net/" }
+        maven {
+            url 'https://maven.cleanroommc.com'
+        }
+    }
+
+    dependencies {
+        classpath group: "net.minecraftforge.gradle", name: "ForgeGradle", version: "5.1.+"
+    }
+}
+
+apply plugin: "java"
+apply plugin: "net.minecraftforge.gradle"
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(8)
+compileJava {
+    sourceCompatibility = "8"
+    targetCompatibility = "8"
+}
+
+repositories {
+    maven {
+        url = "https://maven.minecraftforge.net/"
+    }
+
+    maven {
+        url "https://cursemaven.com"
+    }
+
+    maven {
+        url 'https://maven.cleanroommc.com'
+    }
+}
+
+dependencies {
+    // Forge
+    minecraft "net.minecraftforge:forge:1.12.2-14.23.5.2860"
+
+    // Tesseract @ 1.0.35b
+    implementation fg.deobf("curse.maven:tesseract-379232:4911972")
+
+    // SuperMartijn642's Core Lib @ 1.1.17
+    implementation fg.deobf("curse.maven:supermartijn642s-core-lib-454372:5102240")
+
+    // MixinBooter
+    annotationProcessor 'org.ow2.asm:asm-debug-all:5.2'
+    annotationProcessor 'com.google.guava:guava:32.1.2-jre'
+    annotationProcessor 'com.google.code.gson:gson:2.8.9'
+
+    implementation ('zone.rong:mixinbooter:9.1') {
+        transitive = false
+    }
+    annotationProcessor ('zone.rong:mixinbooter:9.1') {
+        transitive = false
+    }
+}
+
+minecraft {
+    mappings channel: "stable", version: "39-1.12"
+
+    runs {
+        "client" {
+            workingDirectory file("./run")
+            mods { "${project.name}" { source sourceSets.main } }
+        }
+
+        "server" {
+            workingDirectory file("./run/server")
+            mods { "${project.name}" { source sourceSets.main } }
+        }
+    }
+}
+
+processResources {
+    inputs.property "version", project.version
+
+    filesMatching("mcmod.info") {
+        expand "version": project.version
+    }
+}
+
+//When Forge 1.12 loads mods from a directory that's been put on the classpath, it expects to find resources in the same directory.
+//Default Gradle behavior puts resources in ./build/resources/main instead of ./build/classes/main/java. Let's change that.
+sourceSets.all { it.output.resourcesDir = it.output.classesDirs.getFiles().iterator().next() }
